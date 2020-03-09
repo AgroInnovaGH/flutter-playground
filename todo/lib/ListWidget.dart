@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Task.dart';
 
 class ListWidget extends StatelessWidget{
 
   final List tasks;
-  final Function(Task, bool) onChanged;
-  final Function(int) onPressed;
+  final Function(DocumentSnapshot, bool) onChanged;
+  final Function(DocumentSnapshot) onPressed;
   String search;
 
   ListWidget({
@@ -21,6 +22,10 @@ class ListWidget extends StatelessWidget{
       children: <Widget>[
         Expanded(child: new ListView.builder(
           itemBuilder: (context, position){
+
+            DocumentSnapshot doc = tasks[position];
+            var task = doc.data;
+
             return Column(
               children: <Widget>[
                 Container(
@@ -34,11 +39,11 @@ class ListWidget extends StatelessWidget{
                       children: <Widget>[
                         Checkbox(
                           onChanged: (completed) {
-                            onChanged(tasks[position], completed);
+                            onChanged(doc, completed);
                           },
-                          value: tasks[position].completed,
+                          value: task['completed'],
                         ),
-                        Text(tasks[position].text, style: TextStyle(
+                        Text(task['text'], style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 21.0
@@ -48,7 +53,7 @@ class ListWidget extends StatelessWidget{
                     IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: (){
-                        onPressed(position);
+                        onPressed(doc);
                       },
                     )
                   ],

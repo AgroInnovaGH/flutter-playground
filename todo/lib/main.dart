@@ -28,122 +28,69 @@ class _HomeState extends State<Home>{
   Widget build(BuildContext context){
 
     final tabs = [
-      // StreamBuilder(
-      //   stream: Firestore.instance.collection('tasks').snapshots(),
-      //   builder: (context, snapshot){
+      StreamBuilder(
+        stream: Firestore.instance.collection('tasks').snapshots(),
+        builder: (context, snapshot){
 
-      //     return ListWidget(
-      //       tasks: snapshot.data.documents,
-      //       onPressed: (position) {
+          return ListWidget(
+            tasks: snapshot.data.documents,
+            onPressed: (doc) {
 
-      //         setState(() {
-                
-      //           tasks.removeAt(position);
+              doc.reference.delete();
 
-      //         });
+            },
+            onChanged: (doc, completed){
 
-      //       },
-      //       onChanged: (doc, completed){
-
-      //           // doc.reference.updateData({
-      //           //   'completed': completed
-      //           // });
-
-      //           setState(() {
-      //             if (completed){
-
-      //               task.setCompleted();
-
-      //             } else {
-
-      //               task.unComplete();
-
-      //             }
-      //           });
-
-      //       }
-      //     );
-
-      //   }
-      // ),
-      ListWidget(
-        tasks: tasks,
-        onPressed: (position) {
-
-          setState(() {
-            
-            tasks.removeAt(position);
-
-          });
-
-        },
-        onChanged: (task, completed){
-
-          setState(() {
-            if (completed){
-
-              task.setCompleted();
-
-            } else {
-
-              task.unComplete();
+                doc.reference.updateData({
+                  'completed': completed
+                });
 
             }
-          });
+          );
 
         }
       ),
-      ListWidget(
-        tasks: tasks.where((t) => t.completed != true).toList(),
-        onPressed: (position) {
+      StreamBuilder(
+        stream: Firestore.instance.collection('tasks').where('completed', isEqualTo: false).snapshots(),
+        builder: (context, snapshot){
 
-          setState(() {
-            
-            tasks.removeAt(position);
+          return ListWidget(
+            tasks: snapshot.data.documents,
+            onPressed: (doc) {
 
-          });
+              doc.reference.delete();
 
-        },
-        onChanged: (task, completed){
+            },
+            onChanged: (doc, completed){
 
-          setState(() {
-            if (completed){
-
-              task.setCompleted();
-
-            } else {
-
-              task.unComplete();
+                doc.reference.updateData({
+                  'completed': completed
+                });
 
             }
-          });
+          );
 
         }
       ),
-      ListWidget(
-        tasks: tasks.where((t) => t.completed == true).toList(),
-        onPressed: (position) {
+      StreamBuilder(
+        stream: Firestore.instance.collection('tasks').where('completed', isEqualTo: true).snapshots(),
+        builder: (context, snapshot){
 
-          setState(() {
-            
-            tasks.removeAt(position);
+          return ListWidget(
+            tasks: snapshot.data.documents,
+            onPressed: (doc) {
 
-          });
+              doc.reference.delete();
 
-        },
-        onChanged: (task, completed){
+            },
+            onChanged: (doc, completed){
 
-          setState(() {
-            if (completed){
-
-              task.setCompleted();
-
-            } else {
-
-              task.unComplete();
+                doc.reference.updateData({
+                  'completed': completed
+                });
 
             }
-          });
+          );
 
         }
       )
@@ -200,16 +147,10 @@ class _HomeState extends State<Home>{
 
           } else {
 
-            // await Firestore.instance.collection('tasks').add(<String, dynamic>{
-            //   'text': text,
-            //   'completed': false,
-            //   'created_at': FieldValue.serverTimestamp(),
-            // });
-          
-            setState((){
-
-              tasks.add(new Task(text));
-
+            await Firestore.instance.collection('tasks').add(<String, dynamic>{
+              'text': text,
+              'completed': false,
+              'created_at': FieldValue.serverTimestamp(),
             });
 
           }
