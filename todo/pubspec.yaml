@@ -19,6 +19,8 @@ environment:
 dependencies:
   cloud_firestore:
   firebase_auth: 0.15.4
+  auth: ^4.0.0
+  international_phone_input:
   flutter:
     sdk: flutter
 dependency_overrides:
