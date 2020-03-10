@@ -14,7 +14,10 @@ class _SignInState extends State<SignIn> {
   String confirmedNumber = '';
 
   void onPhoneNumberChange(
-      String number, String internationalizedPhoneNumber, String isoCode) {
+      String number,
+      String internationalizedPhoneNumber,
+      String isoCode
+  ) {
     print(number);
     setState(() {
       phoneNumber = number;
@@ -23,7 +26,10 @@ class _SignInState extends State<SignIn> {
   }
 
   onValidPhoneNumber(
-      String number, String internationalizedPhoneNumber, String isoCode) {
+      String number,
+      String internationalizedPhoneNumber,
+      String isoCode
+  ) {
     setState(() {
       visible = true;
       confirmedNumber = internationalizedPhoneNumber;
@@ -38,6 +44,13 @@ class _SignInState extends State<SignIn> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+            Text('Signin to AkokoMarket', style: TextStyle(
+                color: Colors.black,
+                fontSize: 26,
+                fontWeight: FontWeight.w900
+              ),
+            ),
+            SizedBox(height: 100),
             InternationalPhoneInput(
               onPhoneNumberChange: onPhoneNumberChange,
               initialPhoneNumber: phoneNumber,

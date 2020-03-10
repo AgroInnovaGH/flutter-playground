@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'FloatButton.dart';
+import 'package:provider/provider.dart';
+import './services/auth.dart';
+import './models/user.dart';
 import 'Task.dart';
 import 'ListWidget.dart';
-// import 'Wrapper.dart';
-import 'SignIn.dart';
+import 'Wrapper.dart';
 
 void main() => runApp(MaterialApp(
   home: Home(),
@@ -98,69 +100,72 @@ class _HomeState extends State<Home>{
       )
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TODO App'),
-        backgroundColor: Colors.green[600],
-      ),
-      body: SignIn(),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.green[600],
-      //   currentIndex: currentIndex,
-      //   onTap: (index){
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('TODO App'),
+          backgroundColor: Colors.green[600],
+        ),
+        body: Wrapper(),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   backgroundColor: Colors.green[600],
+        //   currentIndex: currentIndex,
+        //   onTap: (index){
 
-      //     setState(() {
-            
-      //       currentIndex = index;
+        //     setState(() {
+              
+        //       currentIndex = index;
 
-      //     });
+        //     });
 
-      //   },
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.list, color: Colors.white),
-      //       activeIcon: Icon(Icons.list, color: Colors.green[800]),
-      //       title: Text('All', style: TextStyle(
-      //         color: Colors.white
-      //       ))
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.format_list_bulleted, color: Colors.white),
-      //       activeIcon: Icon(Icons.format_list_bulleted, color: Colors.green[800]),
-      //       title: Text('Not Completed', style: TextStyle(
-      //         color: Colors.white
-      //       ))
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.playlist_add_check, color: Colors.white),
-      //       activeIcon: Icon(Icons.playlist_add_check, color: Colors.green[800]),
-      //       title: Text('Completed', style: TextStyle(
-      //         color: Colors.white
-      //       ))
-      //     )
-      //   ],
-      // ),
-      // floatingActionButton: FloatButton(
-      //   onCallback: (String text) async {
+        //   },
+        //   items: [
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.list, color: Colors.white),
+        //       activeIcon: Icon(Icons.list, color: Colors.green[800]),
+        //       title: Text('All', style: TextStyle(
+        //         color: Colors.white
+        //       ))
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.format_list_bulleted, color: Colors.white),
+        //       activeIcon: Icon(Icons.format_list_bulleted, color: Colors.green[800]),
+        //       title: Text('Not Completed', style: TextStyle(
+        //         color: Colors.white
+        //       ))
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.playlist_add_check, color: Colors.white),
+        //       activeIcon: Icon(Icons.playlist_add_check, color: Colors.green[800]),
+        //       title: Text('Completed', style: TextStyle(
+        //         color: Colors.white
+        //       ))
+        //     )
+        //   ],
+        // ),
+        // floatingActionButton: FloatButton(
+        //   onCallback: (String text) async {
 
-      //     if (tasks.indexWhere((task) => task.text == text) > -1) {
+        //     if (tasks.indexWhere((task) => task.text == text) > -1) {
 
-      //       print('Task already exists');
+        //       print('Task already exists');
 
-      //     } else {
+        //     } else {
 
-      //       await Firestore.instance.collection('tasks').add(<String, dynamic>{
-      //         'text': text,
-      //         'completed': false,
-      //         'created_at': FieldValue.serverTimestamp(),
-      //       });
+        //       await Firestore.instance.collection('tasks').add(<String, dynamic>{
+        //         'text': text,
+        //         'completed': false,
+        //         'created_at': FieldValue.serverTimestamp(),
+        //       });
 
-      //     }
+        //     }
 
-      //     print(tasks.length);
+        //     print(tasks.length);
 
-      //   }
-      // ),
+        //   }
+        // ),
+      )
     );
 
   }
