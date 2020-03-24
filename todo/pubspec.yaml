@@ -18,6 +18,7 @@ environment:
 
 dependencies:
   cloud_firestore:
+  firestore_ui:
   firebase_auth: 0.15.4
   google_sign_in:
   flutter_facebook_login:

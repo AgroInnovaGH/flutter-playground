@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Task.dart';
+// import 'Task.dart';
 
 class ListWidget extends StatelessWidget{
 
@@ -15,62 +15,54 @@ class ListWidget extends StatelessWidget{
     this.onPressed
   });
 
-  @override
-  Widget build(BuildContext context) {
+  static Column listItem(DocumentSnapshot doc, dynamic onChanged, dynamic onPressed) {
 
-    return new Column(
+    // if (tasks[position] == null) return null;
+
+    var task = doc.data;
+
+    return Column(
       children: <Widget>[
-        Expanded(child: new ListView.builder(
-          itemBuilder: (context, position){
-
-            DocumentSnapshot doc = tasks[position];
-            var task = doc.data;
-
-            return Column(
+        Container(
+          padding: EdgeInsets.only(
+            left: 10
+          ),
+          child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                    left: 10
-                  ),
-                  child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Checkbox(
-                          onChanged: (completed) {
-                            onChanged(doc, completed);
-                          },
-                          value: task['completed'],
-                        ),
-                        Text(task['text'], style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 21.0
-                        )),
-                      ],
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: (){
-                        onPressed(doc);
-                      },
-                    )
-                  ],
+                Checkbox(
+                  onChanged: (completed) {
+                    onChanged(doc, completed);
+                  },
+                  value: task['completed'],
                 ),
-                )
+                Text(task['text'], style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 21.0
+                )),
               ],
-            );
-          },
-          itemCount: tasks.length,
+            ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: (){
+                onPressed(doc);
+              },
+            )
+          ],
         ),
-        ),
-        Divider(
-          height: 2.0,
-          color: Colors.black,
         )
       ],
     );
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Text('Hello World');
 
   }
 
