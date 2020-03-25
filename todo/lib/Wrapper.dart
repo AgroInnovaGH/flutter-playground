@@ -84,7 +84,34 @@ class _WrapperState extends State<Wrapper> {
         child: ListWidget.listItem(snapshot, onChanged, onPressed),
       ),
     ),
-    Text('Hello World')
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children:[
+        DataTable(
+          columns: [
+            DataColumn(label: Text('First Name')),
+            DataColumn(label: Text('Last Name')),
+            DataColumn(label: Text('Age'))
+          ],
+          rows: [
+            DataRow(
+              cells: [
+                DataCell(Text('John')),
+                DataCell(Text('Doe')),
+                DataCell(Text('16'))
+              ]
+            ),
+            DataRow(
+              cells: [
+                DataCell(Text('Jane')),
+                DataCell(Text('Doe')),
+                DataCell(Text('16'))
+              ]
+            )
+          ],
+        )
+      ]
+    )
   ];
 
   @override
@@ -100,6 +127,22 @@ class _WrapperState extends State<Wrapper> {
       return Scaffold(
         appBar: AppBar(
           title: Text('TODO App'),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+
+                  auth.signOut();
+
+                },
+                child: Icon(
+                  Icons.exit_to_app,
+                  size: 26.0,
+                ),
+              )
+            )
+          ],
           backgroundColor: Colors.green[600],
         ),
         body: tabs[currentIndex],
